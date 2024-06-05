@@ -1,0 +1,52 @@
+﻿a {
+  color: #0366d6;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+
+.oldprice{
+    text-decoration:line-through !important;
+}
+.ratingStar {
+    cursor: pointer;
+}
+
+@media only screen and (max-width: 600px) {
+    .brand-text{
+        display:none !important;
+    }
+    .productcard-body{
+        text-align:center !important;
+    }
+    .productname-bigdevice{
+        display:none !important;
+    }
+    .productname-smalldevice {
+       display:block !important;
+    }
+    .productimgdata{
+        align-content:center;
+        margin-left:50px;
+    }
+    .productnamedata {
+        align-content: center;
+        text-align: center;
+    }
+}
+@media only screen and (min-width: 600px) {
+
+}
+
+@media only screen and (min-width: 768px) {
+}
+
+@media only screen and (min-width: 992px) {
+
+}
+@media only screen and (min-width: 1200px) {
+
+}

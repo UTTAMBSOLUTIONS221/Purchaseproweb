@@ -1,0 +1,53 @@
+﻿@model IEnumerable<Purchaseproweb.Models.Systemtenantdatamodel>;
+@{
+    ViewData["Title"] = "Systemtenantlist";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card card-outline card-info">
+            <div class="card-header py-1">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <h6 class="font-weight-bold text-sm card-title">Tenants</h6>
+                    </div>
+                    <div class="col-sm-4">
+                        <a asp-action="Addsystemtenants" asp-controller="Maintenance" asp-route-Tenantid="0" asp-area="" class="btn-info btn-xs btn-outline-info text-white float-right text-uppercase" data-target="#DukawaremallsystemModal" data-toggle="modal" data-backdrop="static" data-keyboard="false">Add Tenant</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body table-responsive table-responsive-sm">
+                <table class="table table-bordered table-striped compact table-sm table-responsive-sm nowrap text-nowrap" id="AllsystemDataTables">
+                    <thead>
+                        <tr>
+                            <th>Tenantlogo</th>
+                            <th>Tenantname</th>
+                            <th>Mpesa Code</th>
+                            <th>Createdby</th>
+                            <th>Datecreated</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td><img src="@Url.Content(item.Tenantlogo)" height="20" width="20"/></td>
+                                <td>@item.Tenantname</td>
+                                <td>@item.Shortcode</td>
+                                <td>@item.Createdbyname</td>
+                                <td>@item.Datecreated</td>
+                                <td>
+                                    <a asp-action="Addsystemtenants" asp-controller="Maintenance" asp-route-Tenantid="@item.Tenantid" asp-area="" class="btn-info btn-xs btn-outline-info text-white text-uppercase" data-target="#DukawaremallsystemModal" data-toggle="modal" data-backdrop="static" data-keyboard="false">Edit</a>
+@*                                     <a asp-action="Resendstaffpassword" asp-controller="StaffManagement" asp-route-Tenantstaffid="@item.StaffId" asp-area="" class="btn-info btn-xs btn-outline-info text-white text-uppercase">Resend Password</a> *@
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

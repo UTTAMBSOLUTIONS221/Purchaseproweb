@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Purchaseproweb.Models.Systemvehiclemodeldata>
+@{
+    ViewData["Title"] = "Systemvehiclemodellist";
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card card-outline card-info">
+            <div class="card-header py-1">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <h6 class="font-weight-bold text-sm card-title">Vehicle Models</h6>
+                    </div>
+                    <div class="col-sm-4">
+                        <a asp-action="Addsystemvehiclemodels" asp-controller="Maintenance" asp-route-Vehiclemodelid="0" asp-area="" class="btn-info btn-xs btn-outline-info text-white float-right text-uppercase" data-target="#DukawaremallsystemModal" data-toggle="modal" data-backdrop="static" data-keyboard="false">Add Model</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body table-responsive table-responsive-sm">
+                <table class="table table-bordered table-striped compact table-sm table-responsive-sm nowrap text-nowrap" id="AllsystemDataTables">
+                    <thead>
+                        <tr>
+                            <th>Make Name</th>
+                            <th>Model Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Vehiclemakename</td>
+                                <td>@item.Vehiclemodelname</td>
+                                <td>
+                                    <a asp-action="Addsystemvehiclemodels" asp-controller="Maintenance" asp-route-Vehiclemodelid="@item.Vehiclemodelid" asp-area="" class="btn-info btn-xs btn-outline-info text-white text-uppercase" data-target="#DukawaremallsystemModal" data-toggle="modal" data-backdrop="static" data-keyboard="false">Edit</a>
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

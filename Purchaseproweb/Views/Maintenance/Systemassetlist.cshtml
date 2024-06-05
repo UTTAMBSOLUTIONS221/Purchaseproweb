@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Purchaseproweb.Models.Systemassetdatamodel>;
+@{
+    ViewData["Title"] = "Systemassetlist";
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card card-outline card-info">
+            <div class="card-header py-1">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <h6 class="font-weight-bold text-sm card-title">System Assets</h6>
+                    </div>
+                    <div class="col-sm-4">
+                        <a asp-action="Addsystemassets" asp-controller="Maintenance" asp-route-Assetid="0" asp-area="" class="btn-info btn-xs btn-outline-info text-white float-right text-uppercase" data-target="#DukawaremallsystemModal" data-toggle="modal" data-backdrop="static" data-keyboard="false">Add Asset</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body table-responsive table-responsive-sm">
+                <table class="table table-bordered table-striped compact table-sm table-responsive-sm nowrap text-nowrap" id="AllsystemDataTables">
+                    <thead>
+                        <tr>
+                            <th>Assetname</th>
+                            <th>Createdby</th>
+                            <th>Datecreated</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Assetname</td>
+                                <td>@item.Createdbyname</td>
+                                <td>@item.Datecreated</td>
+                                <td>
+                                    <a asp-action="Addsystemassets" asp-controller="Maintenance" asp-route-Assetid="@item.Assetid" asp-area="" class="btn-info btn-xs btn-outline-info text-white text-uppercase" data-target="#DukawaremallsystemModal" data-toggle="modal" data-backdrop="static" data-keyboard="false">Edit</a>
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

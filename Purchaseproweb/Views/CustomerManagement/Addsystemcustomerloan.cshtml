@@ -1,0 +1,139 @@
+﻿@model Purchaseproweb.Entities.Systemcustomerloandata
+@{
+    var Systemassets = ViewData["Systemassetlists"] as List<SelectListItem>;
+    var Systemvehiclemakes = ViewData["Systemvehiclemakeslists"] as List<SelectListItem>;
+}
+<div class="modal-header">
+    <h5 class="text-sm modal-title" id="SocialPesaModalLabel">Customer Loan Data</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <input class="form-control form-control-sm" asp-for="Customerid" id="SystemcustomerId" hidden />
+       <input class="form-control form-control-sm" id="SystemcustomerassetidId" hidden /> 
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <h6 class="text-sm card-title p-1">Loan Asset</h6>
+        </div>
+        <div class="col-sm-9 text-sm-center">
+            @foreach (var item in Systemassets)
+            {
+                <label class="font-weight-light">
+                    @item.Text
+                    <input type="radio" name="CustomerAgreements" data-Columnidname="@item.Text" data-Columnid="@item.Value" onclick="showsystemloanassetfields(event)">
+                </label>
+            }
+        </div>
+    </div>
+    <hr />
+    <div class="row Systemassetcarfields" style="display:none">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="font-weight-light">Registration #.</label>
+                        <input class="form-control form-control-sm" id="SystemcustomerassetregistrationId" />
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="font-weight-light">Make</label>
+                        <select class="form-control form-control-sm font-weight-light" onchange="getsystemvehiclemodels(this.value)" id="SystemcustomerassetmakeId" asp-items="@Systemvehiclemakes">
+                            <option value="0">--Select Make ---</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="font-weight-light">Model</label>
+                        <select class="form-control form-control-sm font-weight-light col-sm-10" id="SystemcustomerassetmodelId">
+                            <option value="0">--Select Model ---</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label class="font-weight-light">Chase #.</label>
+                        <input class="form-control form-control-sm" id="SystemcustomerassetchaseId" />
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label class="font-weight-light">Year</label>
+                        <input class="form-control form-control-sm" id="SystemcustomerassetyearofmanufactureId" />
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label class="font-weight-light">Tank Capacity</label>
+                        <input class="form-control form-control-sm" id="SystemcustomerassettankcapacityId" />
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label class="font-weight-light">Milage</label>
+                        <input class="form-control form-control-sm" id="SystemcustomerassetodometerreadingId" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="row Systemloandatafields" style="display:none">
+        <div class="col-sm-12">
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="font-weight-light">Loan Amount</label>
+                        <input class="form-control form-control-sm" type="number" id="SystemcustomerloanprincipleamountId" />
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="font-weight-light">Paid Amount</label>
+                        <input class="form-control form-control-sm" type="number" id="SystemcustomerloanpaidamountId" />
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="font-weight-light">Interest Rate</label>
+                        <input class="form-control form-control-sm" type="number" id="SystemcustomerloaninterestrateId" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="font-weight-light">Loan Period(Years)</label>
+                        <input class="form-control form-control-sm" type="number" id="SystemcustomerloanperiodId" />
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="font-weight-light">Payment Terms</label>
+                        <select class="form-control form-control-sm" id="SystemcustomerloanpaymenttermId">
+                            <option value="0">Select Paymentterms</option>
+                            <option value="Weekly">Weekly</option>
+                            <option value="Monthly">Monthly</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label class="font-weight-light">Start Date</label>
+                        <input class="form-control form-control-sm" type="date" id="SystemcustomerloanstartdateId" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Close</button>
+    <button class="btn btn-sm btn-info font-weight-bold" type="button" onclick="Savesystemcustomerloandetails();">Add</button>
+</div>

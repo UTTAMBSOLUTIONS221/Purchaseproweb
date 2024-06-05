@@ -1,0 +1,57 @@
+﻿@model IEnumerable<Purchaseproweb.Models.SystemUserRoles>
+@{
+    ViewData["Title"] = "Rolelist";
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card card-outline card-info">
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-sm-10">
+                        <h6 class="font-weight-bold text-sm card-title">User Roles</h6>
+                    </div>
+                    <div class="col-sm-2">
+                        <a asp-action="Addsystemrole" asp-controller="StaffManagement" asp-route-RoleId="0" asp-area="" class="btn btn-xs btn-info float-right" data-target="#DukawaremallsystemModalLarge" data-toggle="modal" data-backdrop="static" data-keyboard="false">Add Role</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered table-striped compact table-sm table-responsive-sm table-sm" id="AllsystemDataTables">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.Rolename</td>
+                                <td>@item.Roledescription</td>
+                                <td><a asp-action="Addsystemrole" asp-controller="StaffManagement" asp-area="" asp-route-RoleId="@item.RoleId" class="btn-info btn-xs btn-outline-info text-white text-uppercase" data-target="#DukawaremallsystemModalLarge" data-toggle="modal" data-backdrop="static" data-keyboard="false">Edit</a></td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+    var _perms = document.getElementById("permissionList");
+    for (i = 0; i < _perms.length; i++) {
+        //set items to selected
+        $("#permissions option[value=" + _perms[i].value + "]").attr('selected', 'selected');
+
+        document.querySelectorAll('.isCheckbox').forEach(function (node) {
+            if (node.value == _perms[i].value) {
+                document.getElementById(String(node.value)).checked = true;
+            }
+        });
+    }
+    </script>
+}

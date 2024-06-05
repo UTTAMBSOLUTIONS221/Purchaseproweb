@@ -1,0 +1,181 @@
+﻿@using System.Security.Claims
+@using Purchaseproweb.Models
+@{
+    bool authenticated = false;
+    string Userid = "";
+    UsermodelResponce currentUserData = null;
+    long userType = -1;
+    if (User.Identities.Any(u => u.IsAuthenticated))
+    {
+        authenticated = true;
+        currentUserData = Util.GetCurrentUserData(User.Identities);
+        if (currentUserData != null)
+        {
+            userType = currentUserData.Usermodel.Staffid;
+
+        }
+        Userid = User.Identities.First(u => u.IsAuthenticated && u.HasClaim(c => c.Type == ClaimTypes.NameIdentifier))
+            .FindFirst(ClaimTypes.NameIdentifier).Value;
+    }
+
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>@currentUserData.Usermodel.Tenantname.ToUpper()</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link href="~/lib/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" />
+    <link href="~/lib/plugins/select2/css/select2.min.css" rel="stylesheet" />
+    <link href="~/lib/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css" rel="stylesheet" />
+    <link href="~/lib/bootstrap-toggle/css/bootstrap2-toggle.min.css" rel="stylesheet" />
+    <link href="~/lib/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css" rel="stylesheet" />
+    <link href="~/lib/plugins/bs-stepper/css/bs-stepper.min.css" rel="stylesheet" />
+    <link href="~/lib/plugins/datatables-bs4/css/datatables.bootstrap4.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/lib/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="~/lib/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <link href="~/dist/css/adminlte.min.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
+    <style type="text/css">
+        textarea {
+            resize: none;
+        }
+    </style>
+    @RenderSection("Css", required: false)
+</head>
+<body class="hold-transition layout-top-nav layout-fixed layout-navbar-fixed">
+    <div class="wrapper">
+        <nav class="main-header navbar navbar-expand-md navbar-white">
+            <div class="container-fluid">
+                <a asp-controller="Home" asp-action="Dashboard" class="brand-link bg-white">
+                    <img src="/imgs/dukawaremallo.png" alt="DWM" class="brand-image img-circle" style="opacity: .8">
+                    <span class="brand-text font-weight-bolder text-dark text-uppercase">@currentUserData.Usermodel.Tenantname.ToUpper()</span>
+                </a>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars text-dark"></i></a>
+                    </li>
+                </ul>
+                <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link text-uppercase text-xs text-dark" data-toggle="dropdown" href="#"><i class="fas fa-user-circle text-dark fa-1x img-circle rounded-circle"></i>&nbsp;&nbsp;@currentUserData.Usermodel.Fullname</a>
+                        <div class="dropdown-menu">
+                            <div class="row" hidden>
+                                <div class="col-sm-12">
+                                    <input id="systemLoggedinedtenantid" value="@currentUserData.Usermodel.Tenantid">
+                                    <input id="systemLoggedinedUserid" value="@currentUserData.Usermodel.Staffid">
+                                    <input id="systemLoggedinedUserNameId" value="@currentUserData.Usermodel.Fullname">
+                                    <select id="permissionList" asp-items="@currentUserData.Usermodel.Permission.Select(x => new SelectListItem { Text = x.Permissionname }).ToList()"></select>
+                                </div>
+                            </div>
+                            @*  <a asp-area="" asp-controller="AccountManagement" asp-action="Myprofile" class="dropdown-item text-dark text-sm font-weight-bold">My Profile</a> *@
+                            <a asp-area="" asp-controller="AccountManagement" asp-action="Logout" class="dropdown-item text-dark text-sm"> Log out</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            
+        </nav>
+        <div class="content-wrapper">
+            <div class="content">
+                <div class="container-fluid">
+                    <main role="main" class="pb-3 mt-2 pt-2">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                @RenderBody()
+                            </div>
+                        </div>
+                    </main>
+                </div>
+            </div>
+
+        </div>
+        <footer class="main-footer text-center bg-light">
+            <p class="text-xs font-weight-normal">&copy; 2020 - @DateTime.Now.Year <a class="text-info" href="https://uttambsolutions.com/" target="_blank">Uttamb Solutions</a>. All rights reserved.</p>
+        </footer>
+        <div class="modal modal- fade" id="DukawaremallsystemModalExtraLarge" tabindex="-1">
+            <div class="modal-dialog modal-xl" role="document">
+                <div class="modal-content">
+                </div>
+            </div>
+        </div>
+        <div class="modal modal- fade" id="DukawaremallsystemModalLarge" tabindex="-1">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="DukawaremallsystemModal" tabindex="-1">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="~/lib/plugins/jquery/jquery.min.js"></script>
+    <script src="~/lib/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/plugins/select2/js/select2.full.min.js"></script>
+    <script src="~/lib/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="~/lib/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/lib/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="~/lib/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="~/lib/bootstrap-toggle/js/bootstrap2-toggle.min.js"></script>
+    <script src="~/lib/plugins/summernote/summernote.min.js"></script>
+    <script src="~/lib/plugins/sweetalert2/sweetalert2.min.js"></script>
+    <script src="~/js/generalsystemjavascript.js"></script>
+    <script type="text/javascript">
+        $('#DukawaremallsystemModalExtraLarge').on('show.bs.modal', function (event) {
+            $(".blockoverlay").show();
+            var button = $(event.relatedTarget);
+            var url = button.attr("href");
+            var modal = $(this);
+            modal.find('.modal-content').load(url);
+            $(".blockoverlay").hide();
+        });
+        $('#DukawaremallsystemModalExtraLarge').on('hidden.bs.modal', function () {
+            $(this).removeData('bs.modal');
+            $('.modal-backdrop').remove();
+            $('#DukawaremallsystemModalExtraLarge .modal-content').empty();
+        });
+
+        $('#DukawaremallsystemModalLarge').on('show.bs.modal', function (event) {
+            $(".blockoverlay").show();
+            var button = $(event.relatedTarget);
+            var url = button.attr("href");
+            var modal = $(this);
+            modal.find('.modal-content').load(url);
+            $(".blockoverlay").hide();
+        });
+        $('#DukawaremallsystemModalLarge').on('hidden.bs.modal', function () {
+            $(this).removeData('bs.modal');
+            $('.modal-backdrop').remove();
+            $('#DukawaremallsystemModalLarge .modal-content').empty();
+        });
+
+        $('#DukawaremallsystemModal').on('show.bs.modal', function (event) {
+            $(".blockoverlay").show();
+            var button = $(event.relatedTarget);
+            var url = button.attr("href");
+            var modal = $(this);
+            modal.find('.modal-content').load(url);
+            $(".blockoverlay").hide();
+        });
+        $('#DukawaremallsystemModal').on('hidden.bs.modal', function () {
+            $(this).removeData('bs.modal');
+            $('.modal-backdrop').remove();
+            $('#DukawaremallsystemModal .modal-content').empty();
+        });
+    $("#AllsystemDataTables").DataTable();
+    $("#AllsystemDataTables1").DataTable();
+    $("#AllsystemDataTables2").DataTable();
+    $("#AllsystemDataTables3").DataTable();
+    $("#AllsystemDataTables4").DataTable();
+    </script>
+    @RenderSection("Scripts", required: false)
+    <script src="~/dist/js/adminlte.min.js"></script>
+</body>
+</html>

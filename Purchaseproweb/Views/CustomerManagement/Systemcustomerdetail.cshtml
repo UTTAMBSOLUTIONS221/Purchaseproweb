@@ -1,0 +1,159 @@
+﻿@model Purchaseproweb.Models.Systemcustomerdetaildatamodel;
+@{
+    ViewData["Title"] = "Systemcustomerdetail";
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header py-1">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h6 class="font-weight-bold text-sm card-title">Customer Details</h6>
+                            </div>
+                            <div class="col-sm-12">
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td>Name: @(Model.FirstName + " " + Model.LastName)</td>
+                                            <td>Phone: @Model.PhoneNumber</td>
+                                            <td>Email: @Model.CustomerEmail</td>
+                                            <td>Createdby: @Model.CreatedByName</td>
+                                            <td>Datecreated: @Model.DateCreated</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header py-1">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <h6 class="font-weight-normal text-sm card-title">Customer Invoices</h6>
+                            </div>
+                            <div class="col-sm-4">
+                                <a asp-action="Addsystemcustomerloan" asp-controller="CustomerManagement" asp-route-Customerid="@Model.CustomerId" asp-area="" class="btn-info btn-xs btn-outline-info text-white float-right text-uppercase" data-target="#DukawaremallsystemModal" data-toggle="modal" data-backdrop="static" data-keyboard="false">Add Loan Data</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body table-responsive table-responsive-sm">
+                        <table class="table table-bordered table-striped compact table-sm table-responsive-sm nowrap text-nowrap" id="AllsystemDataTables">
+                            <thead>
+                                <tr>
+                                    <th>Asset #</th>
+                                    <th>Payment Amount</th>
+                                    <th>Principal Amount</th>
+                                    <th>Interest</th>
+                                    <th>Paid Amount</th>
+                                    <th>Outstanding Balance</th>
+                                    <th>Week/Month</th>
+                                    <th>Due Date</th>
+                                    <th>Status</th>
+                                    <th>Reason</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Customerloanitems != null)
+                                {
+                                    foreach (var item in Model.Customerloanitems)
+                                    {
+                                        <tr>
+                                            <td>@item.AssetNumber</td>
+                                            <td>@item.PaymentAmount</td>
+                                            <td>@item.PrincipalAmount</td>
+                                            <td>@item.InterestAmount</td>
+                                            <td>@item.PaidAmount</td>
+                                            <td>@item.Outstandingbalance</td>
+                                            <td>@item.Period</td>
+                                            <td>@item.PaymentDate</td>
+                                            <td>
+                                                @if (item.PaymentStatus == 2)
+                                                {
+                                                    <span class="badge badge-warning text-white">Not Paid</span>
+                                                }
+                                                else if (item.PaymentStatus == 1)
+                                                {
+                                                    <span class="badge badge-secondary text-white">Partially Paid</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge badge-success text-white">Paid</span>
+                                                }
+                                            </td>
+                                            <td>@item.PaymentReason</td>
+                                            <td>
+                                                @if (item.PaymentStatus == 2)
+                                                {
+                                                    <a asp-action="Payloaninvoiceitem" asp-controller="CustomerManagement" asp-area="" asp-route-Assetnumber="@item.AssetNumber" asp-route-AccountId="@item.AccountId" asp-route-AccountNumber="@item.AccountNumber" asp-route-LoanDetailId="@item.LoanDetailId" asp-route-Loandetailitemid="@item.LoanDetailItemId" asp-route-Paymentamount="@item.PaymentAmount" asp-route-Phonenumber="@Model.PhoneNumber" class="btn-info btn-xs btn-outline-info text-white text-uppercase" data-target="#DukawaremallsystemModal" data-toggle="modal" data-backdrop="static" data-keyboard="false">Pay</a>
+                                                }
+                                                else if (item.PaymentStatus == 1)
+                                                {
+                                                    <a asp-action="Payloaninvoiceitem" asp-controller="CustomerManagement" asp-area="" asp-route-Assetnumber="@item.AssetNumber" asp-route-AccountId="@item.AccountId" asp-route-AccountNumber="@item.AccountNumber" asp-route-LoanDetailId="@item.LoanDetailId" asp-route-Loandetailitemid="@item.LoanDetailItemId" asp-route-Paymentamount="@item.Outstandingbalance" asp-route-Phonenumber="@Model.PhoneNumber" class="btn-info btn-xs btn-outline-info text-white text-uppercase" data-target="#DukawaremallsystemModal" data-toggle="modal" data-backdrop="static" data-keyboard="false">Pay</a>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge badge-success text-white">Paid</span>
+                                                }
+                                               </td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header py-1">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h6 class="font-weight-bold text-sm card-title">Customer Payments</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body table-responsive table-responsive-sm">
+                        <table class="table table-bordered table-striped compact table-sm table-responsive-sm nowrap text-nowrap" id="AllsystemDataTables1">
+                            <thead>
+                                <tr>
+                                    <th>Code</th>
+                                    <th>Mpesa Code</th>
+                                    <th>Phone</th>
+                                    <th>Amount</th>
+                                    <th>Remarks</th>
+                                    <th>Datepaid</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (Model.Customerloanpayments != null)
+                                {
+                                    foreach (var item in Model.Customerloanpayments)
+                                    {
+                                        <tr>
+                                            <td>@item.TransactionCode</td>
+                                            <td>@item.Topupreferencecode</td>
+                                            <td>@item.Topupreference</td>
+                                            <td>@item.Recievedamount</td>
+                                            <td>@item.Paymentmemo</td>
+                                            <td>@item.DateCreated</td>
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

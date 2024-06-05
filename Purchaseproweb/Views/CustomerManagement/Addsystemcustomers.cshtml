@@ -1,0 +1,96 @@
+﻿@model Purchaseproweb.Entities.Systemcustomerdetail
+@{
+    var Systemphonecode = ViewData["Systemphonecodelists"] as List<SelectListItem>;
+}
+<div class="modal-header">
+    <h5 class="text-sm modal-title" id="SocialPesaModalLabel">Customer Data</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <input class="form-control form-control-sm" asp-for="Customerid" id="SystemcustomerId" hidden />
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="font-weight-light">First Name</label>
+                <input class="form-control form-control-sm" asp-for="Firstname" id="SystemcustomerfirstnameId" />
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="font-weight-light">Last Name</label>
+                <input class="form-control form-control-sm" asp-for="Lastname" id="SystemcustomerlastnameId" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="font-weight-light">Email Address</label>
+                <input class="form-control form-control-sm" type="email" asp-for="Customeremail" id="SystemcustomeremailaddressId" />
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="font-weight-light">Phone Number</label>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <select class="form-control form-control-sm font-weight-light input-group-text" id="inputGroup-sizing-sm" asp-for="Phoneid" asp-items="@Systemphonecode">
+                            <option value="0">Phonecode</option>
+                        </select>
+                    </div>
+                    <input type="number" class="form-control form-control-sm" aria-label="Small" id="SystemcustomerphonenumberId" asp-for="Phonenumber" aria-describedby="inputGroup-sizing-sm">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="font-weight-light">Id Number</label>
+                <input class="form-control form-control-sm" asp-for="Idnumber" id="SystemcustomeridnumberId" />
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="font-weight-light">License Number</label>
+                <input class="form-control form-control-sm" asp-for="Licensenumber" id="SystemcustomerlicensenumberId" />
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="font-weight-light">Kra Pin</label>
+                <input class="form-control form-control-sm" asp-for="Krapin" id="SystemcustomerkrapinnumberId" />
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label class="font-weight-light">Gender</label>
+                <div class="col-sm-12">
+                    <label class="font-weight-light">
+                        Male
+                        <input type="radio" name="Gender" asp-for="Gender" value="0">
+                    </label> &nbsp;&nbsp;
+                    <label class="font-weight-light">
+                        Female
+                        <input type="radio" name="Gender" asp-for="Gender" value="1">
+                    </label>&nbsp;&nbsp;
+                    <label class="font-weight-light">
+                        General
+                        <input type="radio" name="Gender" asp-for="Gender" value="2">
+                    </label>&nbsp;&nbsp;
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-sm btn-danger" data-dismiss="modal">Close</button>
+    <button class="btn btn-sm btn-info font-weight-bold" type="button" onclick="Savesystemcustomerdetails();">Add</button>
+</div>

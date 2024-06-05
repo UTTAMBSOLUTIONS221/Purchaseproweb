@@ -1,0 +1,87 @@
+﻿@{
+    ViewData["Title"] = "Generatecustomerloanpayment";
+    var Systemcustomers = ViewData["Systemcustomerslists"] as List<SelectListItem>;
+    var Systemassetdetails = ViewData["Systemassetdetailslists"] as List<SelectListItem>;
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-body">
+                <form id="form_id">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <div class="form-group">
+                                <label class="font-weight-light">Customer</label>
+                                <select class="form-control form-control-sm font-weight-light select2" asp-items="@Systemcustomers" name="customerid">
+                                    <option value="">--Select Customer ---</option>
+                                    <option value="0">--All---</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label class="font-weight-light">Asset</label>
+                                <select class="form-control form-control-sm font-weight-light select2" asp-items="@Systemassetdetails" name="assetdetailid">
+                                    <option value="">--Select Asset ---</option>
+                                    <option value="0">--All ---</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label class="font-weight-light">Status</label>
+                                <select class="form-control form-control-sm font-weight-light" name="loanstatus">
+                                    <option value="">--Select Status--</option>
+                                    <option value="-1">--All--</option>
+                                    <option value="0">Paid</option>
+                                    <option value="1">Partially</option>
+                                    <option value="2">Not Due</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label class="font-weight-light">Start Date</label>
+                                <input class="form-control form-control-sm" type="date" required name="startdate" id="startdate" />
+                            </div>
+                        </div>
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label class="font-weight-light">End Date</label>
+                                <input class="form-control form-control-sm" type="date" required name="enddate" id="enddate" />
+                            </div>
+                        </div>
+                        <div class="col-sm-1">
+                            <a href="#" onclick="OnClick()" class="dxbButton btn btn-info btn-sm mt-4">Submit</a>
+                        </div>
+                    </div>
+                </form>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div id="reportContainer"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+        function OnClick(s, e) {
+            if ($('#startdate').val() == "" || $('#enddate').val() == "") {
+                alert("fill all required fields.");
+                return;
+            }
+            $('.blockOverlay').show();
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("Generatecustomerloanpaymentpartialview")",
+                data: dataObject(),
+                success: function (response) {
+                    $('.blockOverlay').hide();
+                    $("#reportContainer").html(response);
+                }
+            });
+        }
+    </script>
+}

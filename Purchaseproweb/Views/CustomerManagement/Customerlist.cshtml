@@ -1,0 +1,85 @@
+﻿@model IEnumerable<Systemcustomerdatamodel>;
+@{
+    ViewData["Title"] = "Customerlist";
+}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card card-outline card-info">
+            <div class="card-header py-1">
+                <div class="row">
+                    <div class="col-sm-8">
+                        <h6 class="font-weight-bold text-sm card-title">Customers</h6>
+                    </div>
+                    <div class="col-sm-4">
+                        <a asp-action="Addsystemcustomers" asp-controller="CustomerManagement" asp-route-Customerid="0" asp-area="" class="btn-info btn-xs btn-outline-info text-white float-right text-uppercase" data-target="#DukawaremallsystemModal" data-toggle="modal" data-backdrop="static" data-keyboard="false">Add Customer</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body table-responsive table-responsive-sm">
+                <table class="table table-bordered table-striped compact table-sm table-responsive-sm nowrap text-nowrap" id="AllsystemDataTables">
+                    <thead>
+                        <tr>
+                            <th>Customer Name</th>
+                            <th>Phonenumber</th>
+                            <th>Emailaddress</th>
+                            <th>Gender</th>
+                            <th>Idnumber</th>
+                            <th>Licensenumber</th>
+                            <th>Krapin</th>
+                            <th>Status</th>
+                            <th>Createdby</th>
+                            <th>Datecreated</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@(item.Firstname + " " + item.Lastname)</td>
+                                <td>@item.Phonenumber</td>
+                                <td>@item.Customeremail</td>
+                                <td>@item.Gender</td>
+                                <td>@item.Idnumber</td>
+                                <td>@item.Licensenumber</td>
+                                <td>@item.Krapin</td>
+                                <td>
+                                    @if (item.Customerstatus == "Pending")
+                                    {
+                                        <span class="badge badge-warning text-white">Pending</span>
+                                    }
+                                    else if (item.Customerstatus == "Verified")
+                                    {
+                                        <span class="badge badge-secondary text-white">Verified</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-success text-white">Approved</span>
+                                    }
+                                </td>
+
+                                <td>@item.Createdbyname</td>
+                                <td>@item.Datecreated</td>
+                                <td>
+                                    <a asp-action="Addsystemcustomers" asp-controller="CustomerManagement" asp-route-Code="@Guid.NewGuid()" asp-route-Customerid="@item.Customerid" asp-area="" class="btn-info btn-xs btn-outline-info text-white text-uppercase" data-target="#DukawaremallsystemModal" data-toggle="modal" data-backdrop="static" data-keyboard="false">Edit</a>
+                                    @if (item.Customerstatus == "Pending")
+                                    {
+                                      <a onclick="verifythis(event)" data-tablename="Systemcustomers" data-Columname="Customerstatus" data-Status="1" data-Columnidname="Customerid" data-Entryid="@item.Customerid" class="btn-info btn-xs text-white text-uppercase">Verify</a>
+                                    }
+                                    else if (item.Customerstatus == "Verified")
+                                    {
+                                        <a onclick="approvethis(event)" data-tablename="Systemcustomers" data-Columname="Customerstatus" data-Status="0" data-Columnidname="Customerid" data-Entryid="@item.Customerid" class="btn-info btn-xs text-white text-uppercase">Aprove</a>
+                                    }else
+                                    {
+                                        <a asp-action="Systemcustomerdetail" asp-controller="CustomerManagement" asp-route-Code="@Guid.NewGuid()" asp-route-Customerid="@item.Customerid" asp-area="" class="btn-info btn-xs btn-outline-info text-white text-uppercase">Details</a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
